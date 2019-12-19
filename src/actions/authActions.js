@@ -10,7 +10,7 @@ import {
   } from "./types";
   
   import { navigate } from "../navigationRef";
-  import api from "../api/userApi";
+  import api from "../api/request";
   
   export const setErrorMessage = errorMessage => {
     return {
@@ -38,21 +38,21 @@ import {
     password
   }) => {
     return dispatch => {
-        debugger
       dispatch({
         type:LOGIN_LOADING,
         payload:true
       })
-      api.post('/login', {
+      api.post('/User/login', {
         email,
         password
       }).then(response => {
-        if (response.data.success) {
+        
+        if (response.status==200) {
           dispatch({
             type: USER_LOGIN,
             payload: response.data
           })
-          navigate("enter");
+          navigate("contacts");
         } else {
           dispatch({
             type: SET_ERROR,

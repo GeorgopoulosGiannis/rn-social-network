@@ -14,8 +14,6 @@ import {
     password: "",
     token: null,
     errorMessage: "",
-    loading: null,
-    user: {},
     loading: false
   };
   
@@ -35,7 +33,7 @@ import {
         };
       case USER_LOGIN:
         return {
-          ...state, user: action.payload, loading: false
+          ...state, token: action.payload, loading: false
         };
       case SIGN_OUT:
         return {

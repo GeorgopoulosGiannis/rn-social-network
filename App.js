@@ -11,15 +11,20 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { setNavigator } from "./src/navigationRef";
 import AuthScreen from "./src/screens/authFlow/LoginScreen"
-
+import FeedScreen from "./src/screens/MainFlow/FeedScreen";
+import ContactsScreen from "./src/screens/chatFlow/ContactsScreen";
+import ChatScreen from "./src/screens/chatFlow/ChatScreen";
 
 const switchNavigator = createSwitchNavigator(
   {
     // ResolveAuth: ResolveAuthScreen,
-    login:AuthScreen,
+    contacts: ContactsScreen,
+    login: AuthScreen,
+    feed: FeedScreen,
+    chat:ChatScreen
   },
   {
-    initialRouteName: "login"
+    initialRouteName: 'contacts'
   }
 );
 
@@ -32,7 +37,7 @@ export default () => {
   return (
     <Provider
       store={createStore(
-        reducers,{},composeEnhancers(applyMiddleware(ReduxThunk))
+        reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk))
         // Specify custom devTools options
       )}
     >
