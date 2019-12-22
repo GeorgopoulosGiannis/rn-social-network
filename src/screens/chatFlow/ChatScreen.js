@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GiftedChat } from "react-native-gifted-chat";
+import { connect } from "react-redux"
+import { fetchMessages, setOwner } from "../../actions/chatActions"
+import { NavigationEvents } from "react-navigation"
+import AsyncStorage from "@react-native-community/async-storage"
 
-
-
-const ChatScreen = () => {
-
-    const messages = [
-        {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-                _id: 2,
-                name: 'React Native',
-                avatar: 'https://placeimg.com/140/140/any',
-            },
-        },
-    ]
-
+const ChatScreen = ({ fetchMessages, messages, ownerEmail, setOwner }) => {
+    const setOwnerFromLocalStorage = async () => {
+        setOwner(await AsyncStorage.getItem('email'));
+    }
 
     return (
-        <GiftedChat
-            messages={messages}
-            onSend={messages => console.log('asdf')}
-            user={{
-                _id: 1,
-            }} />
+        <>
+            <NavigationEvents onWillFocus={() => { setOwnerFromLocalStorage() }} />
+            {ownerEmail ? <GiftedChat
+                messages={messages}
+                onSend={messages => console.log('asdf')}
+                user={{
+                    _id: ownerEmail,
+                }} /> : null}
+        </>
     )
 
 }
+const mapStateToProps = (state) => {
 
-export default ChatScreen;
+    return {
+        messages: state.chat.messages,
+        ownerEmail: state.chat.ownerEmail
+    }
+}
+export default connect(mapStateToProps, { fetchMessages, setOwner })(ChatScreen);

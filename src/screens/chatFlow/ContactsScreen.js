@@ -1,45 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, Input } from "react-native";
-import { ListItem } from "react-native-elements";
+import { View } from "react-native";
+import { ListItem, Divider, Text } from "react-native-elements";
 import SearchBar from '../../components/SearchBar'
+import { connect } from "react-redux"
+import { NavigationEvents } from "react-navigation";
+import { fetchContacts, fetchSuggestions } from "../../actions/contactsActions";
+import { setGuest, setOwner, loadChat, fetchMessages } from "../../actions/chatActions"
+import styles from "./ContactsScreen.style"
 
-const ContactsScreen = ({ navigation }) => {
+const ContactsScreen = ({ navigation, contacts, fetchContacts, suggestions, fetchSuggestions, setGuest, setOwner, fetchMessages }) => {
     const [term, setTerm] = useState("");
     //const [searchApi, results, errorMessage] = useResults();
 
-    const list = [
-        {
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-            subtitle: 'last text...'
-        },
-        {
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            subtitle: 'last text...'
-        },
-        {
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-            subtitle: 'last text...'
-        },
-        {
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            subtitle: 'last text...'
-        },
-        {
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-            subtitle: 'Vice President'
-        },
-        {
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            subtitle: 'Vice Chairman'
-        },
-
-    ]
     return (
         <View>
             <SearchBar
@@ -47,14 +19,38 @@ const ContactsScreen = ({ navigation }) => {
                 onTermChange={newTerm => setTerm(newTerm)}
                 onTermSubmit={() => console.log('asdf')}
             />
+            <NavigationEvents onWillFocus={() => { fetchContacts(), fetchSuggestions() }} />
             {
-                list.map((l, i) => (
+                contacts.map((profile, index) => (
                     <ListItem
-                        onPress={() => navigation.navigate('chat')}
-                        key={i}
-                        leftAvatar={{ source: { uri: l.avatar_url } }}
-                        title={l.name}
-                        subtitle={l.subtitle}
+                        onPress={() => {
+                            setGuest(profile.email);
+                            fetchMessages(profile.email,profile.avatar);
+                            //navigation.navigate('chat')
+                        }}
+                        key={index}
+                        leftAvatar={{ source: { uri: profile.avatar } }}
+                        title={profile.alias}
+                        subtitle={profile.description}
+                        bottomDivider
+                    />
+                ))
+            }
+            <Divider style={{ backgroundColor: 'blue' }} />
+            <Text style={styles.suggestionHeader} h4>Suggestions</Text>
+            {
+                suggestions.map((profile, index) => (
+                    <ListItem
+                        onPress={
+                            () => {
+                                console.log(profile)
+                                console.log(index)
+                            }
+                        }
+                        key={index}
+                        leftAvatar={{ source: { uri: profile.avatar } }}
+                        title={profile.alias}
+                        subtitle={profile.description}
                         bottomDivider
                     />
                 ))
@@ -63,5 +59,11 @@ const ContactsScreen = ({ navigation }) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        contacts: state.contacts.contacts,
+        suggestions: state.contacts.suggestions
+    }
+}
 
-export default ContactsScreen; 
+export default connect(mapStateToProps, { fetchContacts, fetchSuggestions, setGuest, setOwner, fetchMessages })(ContactsScreen);

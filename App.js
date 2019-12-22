@@ -1,6 +1,5 @@
 import React from "react";
 import { composeWithDevTools } from "redux-devtools-extension";
-
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
@@ -11,22 +10,40 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { setNavigator } from "./src/navigationRef";
 import AuthScreen from "./src/screens/authFlow/LoginScreen"
+import RegisterScreen from "./src/screens/authFlow/RegisterScreen"
 import FeedScreen from "./src/screens/MainFlow/FeedScreen";
 import ContactsScreen from "./src/screens/chatFlow/ContactsScreen";
 import ChatScreen from "./src/screens/chatFlow/ChatScreen";
-
-const switchNavigator = createSwitchNavigator(
+import ResolveAuthScreen from "./src/screens/authFlow/ResolveAuthScreen"
+const authFlow = createSwitchNavigator(
   {
-    // ResolveAuth: ResolveAuthScreen,
-    contacts: ContactsScreen,
     login: AuthScreen,
-    feed: FeedScreen,
-    chat:ChatScreen
+    register: RegisterScreen
   },
   {
-    initialRouteName: 'contacts'
+    initialRouteName: 'login'
+  }
+
+);
+
+const chatFlow = createStackNavigator({
+  contacts: ContactsScreen,
+  chat: ChatScreen
+}
+)
+const mainFlow = createBottomTabNavigator({
+  feed: FeedScreen,
+  chat: chatFlow
+})
+const switchNavigator = createSwitchNavigator(
+  {
+    ResolveAuth: ResolveAuthScreen,
+    auth: authFlow,
+    main: mainFlow,
   }
 );
+
+
 
 const App = createAppContainer(switchNavigator);
 const composeEnhancers = composeWithDevTools({
