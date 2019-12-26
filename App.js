@@ -36,6 +36,15 @@ const mainFlow = createBottomTabNavigator({
   feed: FeedScreen,
   chat: chatFlow
 })
+chatFlow.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+  };
+};
 const switchNavigator = createSwitchNavigator(
   {
     ResolveAuth: ResolveAuthScreen,

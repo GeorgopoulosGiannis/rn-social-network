@@ -1,26 +1,29 @@
-import { SET_OWNER, SET_GUEST, FETCH_MESSAGES, CHAT_LOADING, SEND_MESSAGE } from "./types";
+import {
+    SET_OWNER,
+    SET_GUEST,
+    FETCH_MESSAGES,
+    CHAT_LOADING,
+    SEND_MESSAGE,
+    ADD_MESSAGE,
+    MESSAGES_LOADING
+} from "./types";
 import api from "../api/request";
 import { navigate } from "../navigationRef";
+import { adaptServerMessageForClient } from "../adapters/chatMessageAdapter";
 
 export const fetchMessages = (profile) => {
     return dispatch => {
+        dispatch({
+            type: MESSAGES_LOADING,
+            paylod: true
+        })
         api.get('/api/messages', {
             params: {
                 to: profile.email
             }
         }).then(response => {
             let messages = response.data.map(message => {
-                return {
-                    _id: message.id,
-                    text: message.message,
-                    createdAt: message.timeStamp,
-                    user: {
-                        _id: message.from,
-                        name:profile.alias,
-                        avatar:  'https://placeimg.com/140/140/any',//avatar: 'profile.avatar',
-                    },
-                    unread: message.unread
-                }
+                return adaptServerMessageForClient(message, profile.alias);
             })
             dispatch({
                 type: FETCH_MESSAGES,
@@ -30,12 +33,18 @@ export const fetchMessages = (profile) => {
 
     }
 }
+export const addMessage = (message) => {
+    return {
+        type: ADD_MESSAGE,
+        payload: message
+    }
+}
 
-export const sendMessage = (message)=>{
-    return{
-        type:SEND_MESSAGE,
-        payload:message,
-        signalR:true
+export const sendMessage = (message) => {
+    return {
+        type: SEND_MESSAGE,
+        payload: message,
+        signalR: true
     }
 }
 

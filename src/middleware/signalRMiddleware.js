@@ -1,7 +1,7 @@
-import { USER_LOGIN, SEND_MESSAGE, RECEIVE_MESSAGE } from "../actions/types";
+import { USER_LOGIN, SEND_MESSAGE, RECEIVE_MESSAGE, ADD_MESSAGE, SET_ONLINE } from "../actions/types";
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
-
+import { adaptClientMessageForServer, adaptServerMessageForClient } from "../adapters/chatMessageAdapter";
 let _connected = false;
 let _hubConnection = "";
 
@@ -13,16 +13,14 @@ export const signalRMiddleware = (store) => {
                     startConnection(action.payload, store);
                     break;
                 case SEND_MESSAGE:
-                    //adaptMessageForServer(action.payload,store)
-                    _hubConnection.invoke('SendPrivateMessage', adaptMessageForServer(action.payload[0], store)).catch(err => {
+                    let chatMessage = adaptClientMessageForServer(action.payload[0], store)
+                    _hubConnection.invoke('SendPrivateMessage', chatMessage).catch(err => {
                         console.log(err)
                     })
                     break;
                 default:
                     {
                         break;
-                        const myCurrentState = store.getState().objectWithinState;
-                        //  _hub.server.methodOnTheServer2(action.type, myCurrentState);
                     }
             }
         }
@@ -40,7 +38,9 @@ const startConnection = (token, store) => {
             .build();
         console.log("in start connection");
         registerOnServerEvents(_hubConnection, store);
-
+        _hubConnection.onclose((error) => {
+            connected = false;
+        })
         _hubConnection
             .start()
             .then(() => {
@@ -64,10 +64,18 @@ const registerOnServerEvents = (hubConnection, store) => {
         console.log(data);
     })
     hubConnection.on('ReceiveMessage', (data) => {
-        console.log(data);
+        let message = adaptServerMessageForClient(data);
+        store.dispatch({
+            type: ADD_MESSAGE,
+            payload: message
+        })
     })
 
     hubConnection.on('SendOnlineConnections', (data) => {
+        store.dispatch({
+            type:SET_ONLINE,
+            payload:data
+        })
         console.log(data);
     })
 }
