@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import reducers from "./src/reducers/index";
+import {signalRMiddleware} from "./src/middleware/signalRMiddleware";
 
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -54,7 +55,7 @@ export default () => {
   return (
     <Provider
       store={createStore(
-        reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk))
+        reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk,signalRMiddleware))
         // Specify custom devTools options
       )}
     >

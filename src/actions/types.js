@@ -23,3 +23,6 @@ export const FETCH_MESSAGES = "fetch_messages"
 export const SET_OWNER = "set_owner"
 export const SET_GUEST = "set_guest"
 export const CHAT_LOADING = "chat_loading";
+export const SEND_MESSAGE = "send_message";
+export const RECEIVE_MESSAGE = "receive_message";
+export const SET_HUB = "set_hub";

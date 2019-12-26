@@ -15,7 +15,7 @@ export const fetchContacts = () => {
             type: CONTACTS_LOADING,
             payload: true
         })
-        api.get('/Friends', {
+        api.get('/api/Friends', {
             params: {
                 status: 1
             }
@@ -49,7 +49,7 @@ export const fetchSuggestions = () => {
             type: SUGGESTIONS_LOADING,
             payload: true
         })
-        api.get('/Profile/suggestions')
+        api.get('/api/Profile/suggestions')
             .then(response => {
                 if (response.status == 200) {
                     dispatch({

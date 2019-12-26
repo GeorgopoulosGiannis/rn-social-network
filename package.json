@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
     "@freakycoder/react-native-helpers": "^0.1.2",
     "@react-native-community/async-storage": "^1.7.1",
     "axios": "^0.19.0",

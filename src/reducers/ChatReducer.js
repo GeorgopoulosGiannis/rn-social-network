@@ -1,12 +1,11 @@
-import { FETCH_MESSAGES,SET_GUEST,SET_OWNER } from "../actions/types";
+import { FETCH_MESSAGES, SET_GUEST, SET_OWNER, SEND_MESSAGE } from "../actions/types";
 
 const initialState = {
 
     messages: [],
     ownerEmail: "",
-    guestEmail: "",
-    chatLoading:false
-
+    guest: {},
+    chatLoading: false
 }
 
 export default (state = initialState, action) => {
@@ -17,12 +16,16 @@ export default (state = initialState, action) => {
             }
         case SET_GUEST: {
             return {
-                ...state, guestEmail: action.payload
+                ...state, guest: action.payload
             }
         }
         case FETCH_MESSAGES:
             return {
                 ...state, messages: action.payload
+            }
+        case SEND_MESSAGE:
+            return {
+                ...state, messages: [...action.payload,...state.messages]
             }
         default:
             return state

@@ -1,24 +1,25 @@
-import { SET_OWNER, SET_GUEST, FETCH_MESSAGES, CHAT_LOADING } from "./types";
+import { SET_OWNER, SET_GUEST, FETCH_MESSAGES, CHAT_LOADING, SEND_MESSAGE } from "./types";
 import api from "../api/request";
 import { navigate } from "../navigationRef";
 
-export const fetchMessages = (email,avatar) => {
+export const fetchMessages = (profile) => {
     return dispatch => {
-        api.get('/messages', {
+        api.get('/api/messages', {
             params: {
-                to: email
+                to: profile.email
             }
         }).then(response => {
-            let messages = response.data.map(message=>{
-                return{
-                    _id:message.id,
-                    text:message.message,
-                    createdAt:message.timeStamp,
-                    user:{
-                        _id:message.from
+            let messages = response.data.map(message => {
+                return {
+                    _id: message.id,
+                    text: message.message,
+                    createdAt: message.timeStamp,
+                    user: {
+                        _id: message.from,
+                        name:profile.alias,
+                        avatar:  'https://placeimg.com/140/140/any',//avatar: 'profile.avatar',
                     },
-                    avatar:avatar,
-                    unread:message.unread
+                    unread: message.unread
                 }
             })
             dispatch({
@@ -28,23 +29,29 @@ export const fetchMessages = (email,avatar) => {
         })
 
     }
+}
 
-
+export const sendMessage = (message)=>{
+    return{
+        type:SEND_MESSAGE,
+        payload:message,
+        signalR:true
+    }
 }
 
 export const setOwner = (email) => {
     return {
         type: SET_OWNER,
         payload: email
-    } 
+    }
 }
 
 
-export const setGuest = (email) => {
+export const setGuest = (profile) => {
     return dispatch => {
         dispatch({
             type: SET_GUEST,
-            payload: email
+            payload: profile
         })
         navigate('chat')
     }

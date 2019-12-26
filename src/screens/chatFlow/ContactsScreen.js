@@ -24,8 +24,8 @@ const ContactsScreen = ({ navigation, contacts, fetchContacts, suggestions, fetc
                 contacts.map((profile, index) => (
                     <ListItem
                         onPress={() => {
-                            setGuest(profile.email);
-                            fetchMessages(profile.email,profile.avatar);
+                            setGuest(profile);
+                            fetchMessages(profile);
                             //navigation.navigate('chat')
                         }}
                         key={index}
