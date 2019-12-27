@@ -34,7 +34,7 @@ export const signalRMiddleware = (store) => {
 const startConnection = (token, store) => {
     if (!_connected) {
         _hubConnection = new HubConnectionBuilder()
-            .withUrl("http://877baef7.ngrok.io/chat?access_token=" + token)
+            .withUrl(`http://f3657bf1.ngrok.io/chat?access_token=${token}`)
             .build();
         console.log("in start connection");
         registerOnServerEvents(_hubConnection, store);
