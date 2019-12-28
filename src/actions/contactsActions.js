@@ -19,8 +19,7 @@ export const fetchContacts = () => {
             params: {
                 status: 1
             }
-        })
-            .then(response => {
+        }).then(response => {
                 if (response.status == 200) {
                     dispatch({
                         type: FETCH_CONTACTS,
@@ -33,7 +32,6 @@ export const fetchContacts = () => {
                         payload: response.data.error
                     })
                 }
-
             }).catch(error => {
                 dispatch({
                     type: SET_CONTACTS_ERROR,
@@ -72,5 +70,12 @@ export const fetchSuggestions = () => {
                 })
             });
     }
-
+}
+export const fetchUnreadMessages = () => {
+    return dispatch => {
+        api.get('/api/messages/unread')
+            .then(response => {
+                console.log(response)
+            })
+    }
 }

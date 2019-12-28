@@ -9,10 +9,21 @@ const FeedScreen = ({ navigation }) => {
         await AsyncStorage.clear();
         navigation.navigate('login')
     }
-    
+
     return (<View>
         <Header
-            rightComponent={<Icon name='menu' onPress={() => logOut()} />}
+            leftComponent={
+                <Icon
+                    name='user'
+                    color='white'
+                    type='antdesign'
+                    onPress={() => { navigation.navigate() }} />}
+            rightComponent={
+                <Icon
+                    name='logout'
+                    type="antdesign"
+                    color="white"
+                    onPress={() => logOut()} />}
         />
         <Text>feedScreen</Text>
     </View>)

@@ -65,9 +65,3 @@ export const setGuest = (profile) => {
         navigate('chat')
     }
 }
-export const loadChat = (boolean) => {
-    return {
-        type: CHAT_LOADING,
-        payload: boolean
-    }
-}

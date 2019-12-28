@@ -39,8 +39,17 @@ export const tryLocalSignin = () => {
   return async dispatch => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      dispatch({ type: USER_LOGIN, payload: token,signalR:true });
-      navigate("contacts");
+      dispatch({
+        type: USER_LOGIN,
+        payload: token,
+        signalR: true
+      });
+      const email = await AsyncStorage.getItem("email");
+      dispatch({
+        type: SET_OWNER,
+        payload: email
+      })
+      navigate("main");
     } else {
       navigate("login");
     }
@@ -71,7 +80,7 @@ export const loginUser = ({
         dispatch({
           type: USER_LOGIN,
           payload: response.data,
-          signalR:true
+          signalR: true
         })
         navigate("main");
       } else {
@@ -112,7 +121,7 @@ export const registerUser = ({
         dispatch({
           type: USER_LOGIN,
           payload: response.data,
-          signalR:true
+          signalR: true
         })
         navigate("main");
       } else {

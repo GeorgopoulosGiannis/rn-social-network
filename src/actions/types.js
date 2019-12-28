@@ -10,7 +10,7 @@ export const LOGIN_LOADING = "login_loading";
 
 
 /// CONTACTS /// 
-
+export const FETCH_UNREAD = "fetch_unread";
 export const FETCH_CONTACTS = "fetch_contacts";
 export const FETCH_SUGGESTIONS = "fetch_suggestions";
 export const CONTACTS_LOADING = "contacts_loading";
@@ -29,3 +29,7 @@ export const SET_HUB = "set_hub";
 export const ADD_MESSAGE= "add_message";
 export const MESSAGES_LOADING="messages_loading";
 export const SET_ONLINE ="set_online";
+
+//// OWNER ////
+
+export const FETCH_OWNER_PROFILE="fetch_owner_profile";

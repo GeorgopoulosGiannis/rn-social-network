@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FlatList, View, ActivityIndicator } from "react-native";
 import { ListItem, Divider, Text, Badge, withBadge, Avatar } from "react-native-elements";
 import SearchBar from '../../components/SearchBar'
 import { connect } from "react-redux"
-import { NavigationEvents } from "react-navigation";
 import { fetchContacts, fetchSuggestions } from "../../actions/contactsActions";
-import { setGuest, setOwner, loadChat, fetchMessages } from "../../actions/chatActions"
+import { setGuest, setOwner, fetchMessages, fetchUnreadMessages } from "../../actions/chatActions"
 import styles from "./ContactsScreen.style"
 
 
@@ -28,6 +27,7 @@ const ContactsScreen = ({
     const keyExtractor = (item, index) => index.toString();
 
     const renderItem = ({ item }) => {
+        console.log('renderItem')
         let avatar;
         if (onlineList.indexOf(item.email) > -1) {
             avatar = <BadgedAvatar source={{ uri: item.avatar }} rounded={true} />
@@ -45,6 +45,10 @@ const ContactsScreen = ({
             bottomDivider
         />
     }
+    useEffect(()=>{
+        fetchContacts();
+        fetchSuggestions();
+    },[])
     return (
         <View>
             <SearchBar
@@ -52,7 +56,6 @@ const ContactsScreen = ({
                 onTermChange={newTerm => setTerm(newTerm)}
                 onTermSubmit={() => console.log('asdf')}
             />
-            <NavigationEvents onWillFocus={() => { fetchContacts(), fetchSuggestions() }} />
             {contacts_loading ?
                 <ActivityIndicator size="large" color="#0000ff" /> :
                 <FlatList
@@ -83,4 +86,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchContacts, fetchSuggestions, setGuest, setOwner, fetchMessages })(ContactsScreen);
+export default connect(mapStateToProps, {
+    fetchContacts,
+    fetchSuggestions,
+    setGuest,
+    setOwner,
+    fetchMessages,
+    fetchUnreadMessages
+})(ContactsScreen);
