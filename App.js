@@ -1,10 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import reducers from "./src/reducers/index";
-import {signalRMiddleware} from "./src/middleware/signalRMiddleware";
+import { signalRMiddleware } from "./src/middleware/signalRMiddleware";
 
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -17,6 +17,9 @@ import ContactsScreen from "./src/screens/chatFlow/ContactsScreen";
 import ChatScreen from "./src/screens/chatFlow/ChatScreen";
 import ResolveAuthScreen from "./src/screens/authFlow/ResolveAuthScreen"
 import OwnerProfileScreen from "./src/screens/profileFlow/OwnerProfileScreen";
+
+
+
 const authFlow = createSwitchNavigator(
   {
     login: AuthScreen,
@@ -32,13 +35,13 @@ const chatFlow = createStackNavigator({
   contacts: ContactsScreen,
   chat: ChatScreen
 })
-const ownerProfileFlow =createStackNavigator({
-  base:OwnerProfileScreen
+const ownerProfileFlow = createStackNavigator({
+  base: OwnerProfileScreen
 })
 const mainFlow = createBottomTabNavigator({
   feed: FeedScreen,
   chat: chatFlow,
-  profile:ownerProfileFlow
+  profile: ownerProfileFlow
 
 })
 chatFlow.navigationOptions = ({ navigation }) => {
@@ -69,7 +72,7 @@ export default () => {
   return (
     <Provider
       store={createStore(
-        reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk,signalRMiddleware))
+        reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk, signalRMiddleware))
         // Specify custom devTools options
       )}
     >

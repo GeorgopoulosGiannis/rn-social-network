@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, View, ActivityIndicator } from "react-native";
 import { ListItem, Divider, Text, Badge, withBadge, Avatar } from "react-native-elements";
 import SearchBar from '../../components/SearchBar'
@@ -45,10 +45,10 @@ const ContactsScreen = ({
             bottomDivider
         />
     }
-    useEffect(()=>{
+    useEffect(() => {
         fetchContacts();
         fetchSuggestions();
-    },[])
+    }, [])
     return (
         <View>
             <SearchBar

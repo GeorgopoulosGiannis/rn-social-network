@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "758986192124",
+    "firebase_url": "https://rn-social-network.firebaseio.com",
+    "project_id": "rn-social-network",
+    "storage_bucket": "rn-social-network.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758986192124:android:b1b80e0ce6e0a4cd875379",
+        "android_client_info": {
+          "package_name": "com.rnsocialnetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758986192124-h50n4o2easfgt7slska4r4os8thh7sqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rnsocialnetwork",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "758986192124-valjusqdg3a63fsk3lqt3mrkp2sua7gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQDu2QknOd4SZSo3cmvU0qQvfirHO_2b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758986192124-valjusqdg3a63fsk3lqt3mrkp2sua7gl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
