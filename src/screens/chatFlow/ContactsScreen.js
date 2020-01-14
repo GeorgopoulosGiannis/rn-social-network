@@ -4,7 +4,7 @@ import { ListItem, Divider, Text, Badge, withBadge, Avatar } from "react-native-
 import SearchBar from '../../components/SearchBar'
 import { connect } from "react-redux"
 import { fetchContacts, fetchSuggestions } from "../../actions/contactsActions";
-import { setGuest, setOwner, fetchMessages, fetchUnreadMessages } from "../../actions/chatActions"
+import { setGuest, fetchMessages, fetchUnreadMessages } from "../../actions/chatActions"
 import styles from "./ContactsScreen.style"
 
 
@@ -17,7 +17,6 @@ const ContactsScreen = ({
     suggestions,
     fetchSuggestions,
     setGuest,
-    setOwner,
     fetchMessages,
     onlineList
 }) => {
@@ -90,7 +89,6 @@ export default connect(mapStateToProps, {
     fetchContacts,
     fetchSuggestions,
     setGuest,
-    setOwner,
     fetchMessages,
     fetchUnreadMessages
 })(ContactsScreen);

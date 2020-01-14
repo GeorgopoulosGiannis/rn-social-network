@@ -1,67 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image } from "react-native";
-import { Header, Icon, Avatar } from "react-native-elements"
-import { fetchOwnerProfile } from "../../actions/ownerActions";
-import { Container, Header as NativeHeader, Content, Card, CardItem, Thumbnail, Text as NativeText, Button, Icon as NativeIcon, Left, Body } from 'native-base';
+import { Header, Icon, Avatar, Card, Text } from "react-native-elements"
+import { uploadImage } from "../../actions/ownerActions";
 import { connect } from "react-redux";
 import styles from "./OwnerProfileScreen.style"
+import { imageUrl } from "../../api/request";
+import ImagePicker from 'react-native-image-picker';
 
-const OwnerProfileScreen = ({ navigation, ownerEmail }) => {
-
+const OwnerProfileScreen = ({ navigation, profile, uploadImage }) => {
+    const [avatarSrc, setAvatarSrc] = useState("");
     useEffect(() => {
-        fetchOwnerProfile(ownerEmail);
-    }, [])
-    console.log(ownerEmail)
+        console.log(imageUrl + profile.avatar)
+        //setAvatarSrc(imageUrl + profile.avatar);
+        setAvatarSrc(imageUrl+profile.avatar);
+    }, [profile]);
+    showImgPicker = (event) => {
+
+        ImagePicker.showImagePicker({}, (response) => {
+            uploadImage(response, profile.email);
+        })
+    }
     return (
-        <Container>
+        <View style={styles.wrapper}>
             <Avatar
                 size="xlarge"
                 rounded
                 source={{
-                    uri:
-                        'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                    uri: avatarSrc
                 }}
                 activeOpacity={0.7}
+                editButton={{ name: 'camera', type: 'feather', iconStyle: { marginBottom: 4 } }}
                 showEditButton
+                onEditPress={(event) => { showImgPicker(event, profile.email, uploadImage) }}
             />
-            <NativeText>{ownerEmail}</NativeText>
-            <Content>
-                <Card style={{ flex: 0 }}>
-                    <CardItem>
-                        <Left>
-                            <Thumbnail source={{ uri: 'Image URL' }} />
-                            <Body>
-                                <NativeText>NativeBase</NativeText>
-                                <NativeText note>April 15, 2016</NativeText>
-                            </Body>
-                        </Left>
-                    </CardItem>
-                    <CardItem>
-                        <Body>
-                            <Image source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} style={{ height: 200, width: 200, flex: 1 }} />
-                            <NativeText>
-                            //Your text here//Your text here//Your text here//Your text here//Your text here//Your text here//Your text here//Your text here
-                            </NativeText>
-                        </Body>
-                    </CardItem>
-                    <CardItem>
-                        <Left>
-                            <Button transparent textStyle={{ color: '#87838B' }}>
-                                <NativeIcon name="logo-github" />
-                                <NativeText>1,926 stars</NativeText>
-                            </Button>
-                        </Left>
-                    </CardItem>
-                </Card>
-            </Content>
-        </Container>
+            <Text>{profile.alias}</Text>
+        </View>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        ownerEmail: state.chat.ownerEmail
+        profile: state.owner.profile,
     }
 }
 
-export default connect(mapStateToProps)(OwnerProfileScreen);
+export default connect(mapStateToProps, { uploadImage })(OwnerProfileScreen);

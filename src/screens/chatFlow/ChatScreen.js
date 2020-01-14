@@ -8,7 +8,7 @@ import { NavigationEvents } from "react-navigation"
 const ChatScreen = ({
     fetchMessages,
     messages,
-    ownerEmail,
+    profile,
     sendMessage,
     messages_loading
 }) => {
@@ -23,7 +23,7 @@ const ChatScreen = ({
                         //GiftedChat.append(messages, message)
                     }}
                     user={{
-                        _id: ownerEmail,
+                        _id: profile.email,
                     }} />}
         </>
     )
@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
 
     return {
         messages: state.chat.messages,
-        ownerEmail: state.chat.ownerEmail,
+        profile: state.owner.profile,
         messages_loading: state.chat.messages_loading
     }
 }

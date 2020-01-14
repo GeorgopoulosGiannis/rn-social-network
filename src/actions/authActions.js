@@ -8,11 +8,13 @@ import {
   CLEAR_ERROR,
   LOGIN_LOADING,
   SET_OWNER,
+  SET_FCM_TOKEN
 } from "./types";
 
 import { navigate } from "../navigationRef";
 import api from "../api/request";
 import AsyncStorage from '@react-native-community/async-storage';
+import { RegisterFirebaseEvents } from "../services/FirebaseService";
 
 export const setErrorMessage = errorMessage => {
   return {
@@ -20,7 +22,6 @@ export const setErrorMessage = errorMessage => {
     payload: errorMessage
   };
 };
-
 export const usernameChanged = text => {
   return {
     type: USERNAME_CHANGED,
@@ -44,12 +45,32 @@ export const tryLocalSignin = () => {
         payload: token,
         signalR: true
       });
-      const email = await AsyncStorage.getItem("email");
-      dispatch({
-        type: SET_OWNER,
-        payload: email
+      RegisterFirebaseEvents().then(token => {
+        api.post('api/User/fcmToken', {
+          token
+        }).then(response => {
+          console.log(response)
+        }).catch(err => {
+          console.log(err)
+        })
+      }).catch(err => {
+        console.log(err)
       })
-      navigate("main");
+      const email = await AsyncStorage.getItem("email");
+      api.get("/api/Profile", {
+        params: { email }
+      }).then(res => {
+        if (res.status == 200) {
+          dispatch({
+            type: SET_OWNER,
+            payload: res.data
+          })
+          navigate("main");
+        }
+      })
+
+
+
     } else {
       navigate("login");
     }
@@ -73,14 +94,34 @@ export const loginUser = ({
       if (response.status == 200) {
         await AsyncStorage.setItem("token", response.data);
         await AsyncStorage.setItem("email", email)
-        dispatch({
-          type: SET_OWNER,
-          payload: email
+        api.get('/api/Profile', {
+          params: {
+            email
+          }
+        }).then(res => {
+          if (res.status == 200) {
+            dispatch({
+              type: SET_OWNER,
+              payload: res.data
+            })
+          }
         })
+
         dispatch({
           type: USER_LOGIN,
           payload: response.data,
           signalR: true
+        })
+        RegisterFirebaseEvents().then(token => {
+          api.post('api/User/fcmToken', {
+            token
+          }).then(response => {
+            console.log(response)
+          }).catch(err => {
+            console.log(err)
+          })
+        }).catch(err => {
+          console.log(err)
         })
         navigate("main");
       } else {

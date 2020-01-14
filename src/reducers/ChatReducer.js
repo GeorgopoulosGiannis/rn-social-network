@@ -1,29 +1,30 @@
 import {
     FETCH_MESSAGES,
     SET_GUEST,
-    SET_OWNER,
     SEND_MESSAGE,
     ADD_MESSAGE,
     MESSAGES_LOADING,
-    SET_ONLINE
+    SET_ONLINE,
+    HUB_CONNECTED
 } from "../actions/types";
 
 const initialState = {
 
     messages: [],
     messages_loading: false,
-    ownerEmail: "",
     guest: {},
     chatLoading: false,
-    onlineList: []
+    onlineList: [],
+    hubConnected: false
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case SET_OWNER:
+        case HUB_CONNECTED:
             return {
-                ...state, ownerEmail: action.payload
+                ...state, hubConnected: action.payload
             }
+
         case SET_GUEST:
             return {
                 ...state, guest: action.payload

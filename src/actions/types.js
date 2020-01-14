@@ -20,16 +20,18 @@ export const SET_SUGGESTIONS_ERROR = "set_suggestions_error";
 
 //// CHAT //// 
 export const FETCH_MESSAGES = "fetch_messages"
-export const SET_OWNER = "set_owner"
 export const SET_GUEST = "set_guest"
 export const CHAT_LOADING = "chat_loading";
 export const SEND_MESSAGE = "send_message";
 export const RECEIVE_MESSAGE = "receive_message";
 export const SET_HUB = "set_hub";
-export const ADD_MESSAGE= "add_message";
-export const MESSAGES_LOADING="messages_loading";
-export const SET_ONLINE ="set_online";
+export const ADD_MESSAGE = "add_message";
+export const MESSAGES_LOADING = "messages_loading";
+export const SET_ONLINE = "set_online";
+export const HUB_CONNECTED = "disconnected_from_hub";
 
 //// OWNER ////
 
-export const FETCH_OWNER_PROFILE="fetch_owner_profile";
+export const FETCH_OWNER_PROFILE = "fetch_owner_profile";
+export const UPLOAD_IMAGE = "upload_image";
+export const SET_OWNER = "set_owner"

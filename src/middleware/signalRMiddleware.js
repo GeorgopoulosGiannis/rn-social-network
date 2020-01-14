@@ -1,4 +1,4 @@
-import { USER_LOGIN, SEND_MESSAGE, RECEIVE_MESSAGE, ADD_MESSAGE, SET_ONLINE } from "../actions/types";
+import { USER_LOGIN, SEND_MESSAGE, RECEIVE_MESSAGE, ADD_MESSAGE, SET_ONLINE, HUB_CONNECTED } from "../actions/types";
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { adaptClientMessageForServer, adaptServerMessageForClient } from "../adapters/chatMessageAdapter";
@@ -34,11 +34,15 @@ export const signalRMiddleware = (store) => {
 const startConnection = (token, store) => {
     if (!_connected) {
         _hubConnection = new HubConnectionBuilder()
-            .withUrl(`http://d8725f3c.ngrok.io/chat?access_token=${token}`)
+            .withUrl(`http://d9a421bc.ngrok.io/chat?access_token=${token}`)
             .build();
         console.log("in start connection");
         registerOnServerEvents(_hubConnection, store);
         _hubConnection.onclose((error) => {
+            store.dispatch({
+                action: HUB_CONNECTED,
+                payload: false
+            })
             connected = false;
         })
         _hubConnection
@@ -73,8 +77,8 @@ const registerOnServerEvents = (hubConnection, store) => {
 
     hubConnection.on('SendOnlineConnections', (data) => {
         store.dispatch({
-            type:SET_ONLINE,
-            payload:data
+            type: SET_ONLINE,
+            payload: data
         })
         console.log(data);
     })

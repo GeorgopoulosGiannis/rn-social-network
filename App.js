@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -17,8 +17,6 @@ import ContactsScreen from "./src/screens/chatFlow/ContactsScreen";
 import ChatScreen from "./src/screens/chatFlow/ChatScreen";
 import ResolveAuthScreen from "./src/screens/authFlow/ResolveAuthScreen"
 import OwnerProfileScreen from "./src/screens/profileFlow/OwnerProfileScreen";
-
-
 
 const authFlow = createSwitchNavigator(
   {

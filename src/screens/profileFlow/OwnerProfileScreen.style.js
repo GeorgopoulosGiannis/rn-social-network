@@ -7,7 +7,6 @@ export default {
         marginTop:20
     },
     headAvatar:{
-        height:100,
-        width:200
+        
     }
 }

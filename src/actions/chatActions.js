@@ -5,7 +5,8 @@ import {
     CHAT_LOADING,
     SEND_MESSAGE,
     ADD_MESSAGE,
-    MESSAGES_LOADING
+    MESSAGES_LOADING,
+    DISCONNECTED_FROM_HUB
 } from "./types";
 import api from "../api/request";
 import { navigate } from "../navigationRef";
@@ -30,7 +31,6 @@ export const fetchMessages = (profile) => {
                 payload: messages
             })
         })
-
     }
 }
 export const addMessage = (message) => {
@@ -48,12 +48,7 @@ export const sendMessage = (message) => {
     }
 }
 
-export const setOwner = (email) => {
-    return {
-        type: SET_OWNER,
-        payload: email
-    }
-}
+
 
 
 export const setGuest = (profile) => {
