@@ -39,16 +39,20 @@ export const uploadImage = (file, userEmail) => {
                 type: UPLOAD_IMAGE,
                 payload: res.data
             })
-            let profileDTO = { Avatar: res.data }
-            api.post('/api/profile/update', profileDTO).then(res => {
-                console.log(res)
-            }).catch(err=>{
-                console.log(err);
-            })
-
-
         }).catch(err => {
             console.log(err);
         });
     }
+}
+
+export const updateProfileAvatar = (avatarUrl) => {
+    return dispatch => {
+        let profileDTO = { Avatar: avatarUrl }
+        api.post('/api/profile/update', profileDTO).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
 }

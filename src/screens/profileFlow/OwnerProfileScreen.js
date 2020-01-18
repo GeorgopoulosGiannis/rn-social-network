@@ -1,47 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { View, Image } from "react-native";
-import { Header, Icon, Avatar, Card, Text } from "react-native-elements"
-import { uploadImage } from "../../actions/ownerActions";
+import { View } from "react-native";
+import { Text, ButtonGroup } from "react-native-elements"
 import { connect } from "react-redux";
 import styles from "./OwnerProfileScreen.style"
 import { imageUrl } from "../../api/request";
-import ImagePicker from 'react-native-image-picker';
+import OwnerAvatar from "../../components/OwnerAvatar";
+import PostCard from "../../components/PostCard";
 
-const OwnerProfileScreen = ({ navigation, profile, uploadImage }) => {
-    const [avatarSrc, setAvatarSrc] = useState("");
+const OwnerProfileScreen = ({ navigation, profile }) => {
+    const [avatarSrc, setAvatarSrc] = useState("../../../resources/images/facebook.jpeg");
+
+    /// TODO CREATE SEPARATE HOOK TO DOWNLOAD IMAGES
     useEffect(() => {
-        console.log(imageUrl + profile.avatar)
-        //setAvatarSrc(imageUrl + profile.avatar);
-        setAvatarSrc(imageUrl+profile.avatar);
+        setAvatarSrc(imageUrl + profile.avatar);
     }, [profile]);
-    showImgPicker = (event) => {
 
-        ImagePicker.showImagePicker({}, (response) => {
-            uploadImage(response, profile.email);
-        })
-    }
+    const buttons = ['Images', 'Notifications']
     return (
         <View style={styles.wrapper}>
-            <Avatar
-                size="xlarge"
-                rounded
-                source={{
-                    uri: avatarSrc
-                }}
-                activeOpacity={0.7}
-                editButton={{ name: 'camera', type: 'feather', iconStyle: { marginBottom: 4 } }}
-                showEditButton
-                onEditPress={(event) => { showImgPicker(event, profile.email, uploadImage) }}
+            <OwnerAvatar
+                avatarSrc={avatarSrc}
+                uploaderEmail={profile.email}
             />
-            <Text>{profile.alias}</Text>
+            <Text h3>{profile.alias}</Text>
+            <ButtonGroup
+                buttons={buttons}
+                selectedIndex={0}
+            />
+            <PostCard />
         </View>
     )
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.owner);
     return {
         profile: state.owner.profile,
     }
 }
 
-export default connect(mapStateToProps, { uploadImage })(OwnerProfileScreen);
+export default connect(mapStateToProps, {})(OwnerProfileScreen);

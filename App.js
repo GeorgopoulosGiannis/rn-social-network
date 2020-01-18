@@ -38,8 +38,8 @@ const ownerProfileFlow = createStackNavigator({
 })
 const mainFlow = createBottomTabNavigator({
   feed: FeedScreen,
-  chat: chatFlow,
-  profile: ownerProfileFlow
+  profile: ownerProfileFlow,
+  chat: chatFlow
 
 })
 chatFlow.navigationOptions = ({ navigation }) => {

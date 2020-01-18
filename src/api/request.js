@@ -1,8 +1,10 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
 
+export const apiUrl = "http://6eff5375.ngrok.io";
+export const imageUrl = `${apiUrl}/api/Image/image?imagePath=`;
 const instance = axios.create({
-  baseURL: "http://d9a421bc.ngrok.io"
+  baseURL: apiUrl
 });
 instance.interceptors.request.use(
   async config => {
@@ -18,6 +20,5 @@ instance.interceptors.request.use(
     return Promise.reject(err);
   }
 );
-export const apiUrl = "http://d9a421bc.ngrok.io";
-export const imageUrl ="http://d9a421bc.ngrok.io/api/Image/image?imagePath=";
+
 export default instance;

@@ -2,6 +2,7 @@ import { USER_LOGIN, SEND_MESSAGE, RECEIVE_MESSAGE, ADD_MESSAGE, SET_ONLINE, HUB
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { adaptClientMessageForServer, adaptServerMessageForClient } from "../adapters/chatMessageAdapter";
+import { apiUrl } from "../api/request";
 let _connected = false;
 let _hubConnection = "";
 
@@ -34,7 +35,7 @@ export const signalRMiddleware = (store) => {
 const startConnection = (token, store) => {
     if (!_connected) {
         _hubConnection = new HubConnectionBuilder()
-            .withUrl(`http://d9a421bc.ngrok.io/chat?access_token=${token}`)
+            .withUrl(`${apiUrl}/chat?access_token=${token}`)
             .build();
         console.log("in start connection");
         registerOnServerEvents(_hubConnection, store);
