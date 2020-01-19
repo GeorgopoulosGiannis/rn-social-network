@@ -48,7 +48,6 @@ const OwnerProfileScreen = ({ navigation, profile, images }) => {
         </View>
     )
 }
-
 const mapStateToProps = (state) => {
     console.log(state.owner);
     return {
@@ -56,5 +55,6 @@ const mapStateToProps = (state) => {
         images: state.owner.images
     }
 }
+
 
 export default connect(mapStateToProps, {})(OwnerProfileScreen);

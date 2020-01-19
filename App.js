@@ -51,6 +51,11 @@ chatFlow.navigationOptions = ({ navigation }) => {
     tabBarVisible,
   };
 };
+OwnerProfileScreen.navigationOptions = ({ navigation }) => {
+  return {
+    header:null
+  }
+}
 const switchNavigator = createSwitchNavigator(
   {
     ResolveAuth: ResolveAuthScreen,
