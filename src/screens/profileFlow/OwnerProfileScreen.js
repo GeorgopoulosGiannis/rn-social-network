@@ -1,48 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList } from "react-native";
-import { Text, ButtonGroup, ListItem } from "react-native-elements"
 import { connect } from "react-redux";
 import styles from "./OwnerProfileScreen.style"
 import { imageUrl } from "../../api/request";
-import OwnerAvatar from "../../components/OwnerAvatar";
+import OwnerListHeader from "../../components/OwnerListHeader";
 import PostCard from "../../components/PostCard";
-import { List } from "native-base";
+
 
 
 const OwnerProfileScreen = ({ navigation, profile, images }) => {
-    const [avatarSrc, setAvatarSrc] = useState("../../../resources/images/facebook.jpeg");
 
-    /// TODO CREATE SEPARATE HOOK TO DOWNLOAD IMAGES
-    useEffect(() => {
-        setAvatarSrc(imageUrl + profile.avatar);
-    }, [profile]);
+
     const renderItem = ({ item }) => {
-        return <PostCard />
+        return <PostCard 
+        title={profile.alias}
+        imageSrc = {item}
+         />
     }
     const renderHeader = () => {
         return (
-            <View style={{alignItems:'center'}}>
-                <OwnerAvatar
-                    avatarSrc={avatarSrc}
+            <View style={{ flex: 1 }}>
+                <OwnerListHeader
                     uploaderEmail={profile.email}
-                />
-                <Text h3>{profile.alias}</Text>
-                <ButtonGroup
+                    alias={profile.alias}
+                    avatarSrc={profile.avatar}
                     buttons={buttons}
-                    selectedIndex={0}
                 />
-                <PostCard />
             </View>
         )
     }
-    const buttons = ['Images', 'Notifications']
+    const buttons = ['Posts', 'Notifications']
     return (
         <View style={styles.wrapper}>
 
             <FlatList
-                keyExtractor={(item, index) => { return index }}
-                ListHeaderComponent ={renderHeader}
-                data={images}
+                keyExtractor={(item, index) => { return item + index }}
+                ListHeaderComponent={renderHeader}
+                data={profile.imageURLs}
                 renderItem={renderItem}
             />
         </View>

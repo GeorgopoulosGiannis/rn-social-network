@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
 
-export const apiUrl = "http://6eff5375.ngrok.io";
+export const apiUrl = "http://6a31caed.ngrok.io";
 export const imageUrl = `${apiUrl}/api/Image/image?imagePath=`;
 const instance = axios.create({
   baseURL: apiUrl
