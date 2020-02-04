@@ -37,40 +37,43 @@ export const passwordChanged = text => {
 };
 
 export const tryLocalSignin = () => {
+
   return async dispatch => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      dispatch({
-        type: USER_LOGIN,
-        payload: token,
-        signalR: true
-      });
-      RegisterFirebaseEvents().then(token => {
-        api.post('api/User/fcmToken', {
-          token
-        }).then(response => {
-          console.log(response)
+      try {
+        dispatch({
+          type: USER_LOGIN,
+          payload: token,
+          signalR: true
+        });
+        RegisterFirebaseEvents().then(token => {
+          api.post('api/User/fcmToken', {
+            token
+          }).then(response => {
+            console.log(response)
+          }).catch(err => {
+            navigate("login");
+            console.log(err)
+          })
         }).catch(err => {
           console.log(err)
         })
-      }).catch(err => {
-        console.log(err)
-      })
-      const email = await AsyncStorage.getItem("email");
-      api.get("/api/Profile", {
-        params: { email }
-      }).then(res => {
-        if (res.status == 200) {
-          dispatch({
-            type: SET_OWNER,
-            payload: res.data
-          })
-          navigate("main");
-        }
-      })
-
-
-
+        const email = await AsyncStorage.getItem("email");
+        api.get("/api/Profile", {
+          params: { email }
+        }).then(res => {
+          if (res.status == 200) {
+            dispatch({
+              type: SET_OWNER,
+              payload: res.data
+            })
+            navigate("main");
+          }
+        })
+      } catch (e) {
+        console.log(e.message);
+      }
     } else {
       navigate("login");
     }

@@ -6,7 +6,7 @@ export default {
         alignItems:'center',
         marginTop:20,
     },
-    headAvatar:{
-        
+    listHeader:{
+        flex:1
     }
 }

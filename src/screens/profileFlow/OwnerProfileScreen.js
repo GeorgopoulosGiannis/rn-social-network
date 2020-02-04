@@ -19,7 +19,7 @@ const OwnerProfileScreen = ({ navigation, profile, images }) => {
     }
     const renderHeader = () => {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.listHeader}>
                 <OwnerListHeader
                     uploaderEmail={profile.email}
                     alias={profile.alias}
@@ -32,7 +32,6 @@ const OwnerProfileScreen = ({ navigation, profile, images }) => {
     const buttons = ['Posts', 'Notifications']
     return (
         <View style={styles.wrapper}>
-
             <FlatList
                 keyExtractor={(item, index) => { return item + index }}
                 ListHeaderComponent={renderHeader}
